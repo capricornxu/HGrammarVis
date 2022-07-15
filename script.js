@@ -1,4 +1,4 @@
-// // LekagulSensorData.csv
+// LekagulSensorData.csv
 
 function updateAttr(){ 
     console.log(this.files[0]);
