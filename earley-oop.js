@@ -53,16 +53,6 @@ var tinynlp = (function(){
         // TODO: get rid of this hardcode name for epsilon productions
         return "_EPSILON_" == term;
     }
-
-    Grammar.prototype.dfs_traverse = function(start){
-        // Returns all possible strings which can be generated
-        // by grammar
-        const all_hypo = {};
-        
-        
-
-        return null;
-    }
     
     //------------------------------------------------------------------------------------
     
