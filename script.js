@@ -83,28 +83,28 @@ function grm_traverse(grammar, start){
     var all_hypo = [];
     var worklist = [];
     worklist.push(grammar[start].flat());
-    // worklist.flat();
-    // while(worklist.length != 0){
-    //     console.log(worklist);
-    //     console.log("Looping...");
-    //     if(is_hypo(worklist[0], grammar)){
-    //         all_hypo.push(worklist[0]);
-    //         console.log("Got 1 hypo: " + worklist[0]);
-    //         worklist.shift();
-    //     }
-    //     worklist.push(allstr_generatedby(grammar, worklist[0]));
-    //     // console.log(worklist);
-    //     worklist.shift();
-    //     worklist = worklist.flat();
-    //     // console.log(worklist);   
-    // }
+    worklist.flat();
+    while(worklist.length != 0){
+        console.log(worklist);
+        console.log("Looping...");
+        if(is_hypo(worklist[0], grammar)){
+            all_hypo.push(worklist[0]);
+            console.log("Got 1 hypo: " + worklist[0]);
+            worklist.shift();
+        }
+        worklist.push(allstr_generatedby(grammar, worklist[0]));
+        // console.log(worklist);
+        worklist.shift();
+        worklist = worklist.flat();
+        // console.log(worklist);   
+    }
     // test = ['root'];
     // test = ['hypo'];
     // test = ['expr', 'op', '10'];
-    test = ['func', '(cost,price)', 'op', '10'];
-    // console.log(is_hypo(test, grammar));
-    // console.log(allstr_generatedby(grammar, test));
-    all_hypo.push(allstr_generatedby(grammar, test));
+    // test = ['func', '(cost,price)', 'op', '10'];
+    // // console.log(is_hypo(test, grammar));
+    // // console.log(allstr_generatedby(grammar, test));
+    // all_hypo.push(allstr_generatedby(grammar, test));
 
     return all_hypo.flat();
 }
