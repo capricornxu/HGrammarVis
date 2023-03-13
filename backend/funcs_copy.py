@@ -78,11 +78,10 @@ def Iterator(
     sent_dict = {}
     index = 0
     for sentence in generate(grammar, n = num):
-        print(sentence)
         sent = str(' '.join(sentence))
         # sentence evaluation
-        # eval = evaluation(sent, grammar)
-        dictionary = {"sentence": sent,"evaluation":1}
+        eval = evaluation(sent, grammar)
+        dictionary = {"sentence": sent,"evaluation":eval}
         sent_dict.update({index: dictionary})
         index = index + 1
         # print([str(' '.join(sentence))])
@@ -246,59 +245,3 @@ def hypo_to_sql(
     print(sql)
     
     return sql
-
-
-### combine expr and pred to be hypothesis
-def combine_prds(prd_dict):
-    expr1 = prd_dict['expr1']
-    pred1 = prd_dict['pred1']
-    expr2 = prd_dict['expr2']
-    pred2 = prd_dict['pred2']
-
-    op_list = ["=", "<"]
-
-    expr1_list = []
-    pred1_list = []
-    expr2_list = []
-    pred2_list = []
-
-    for i in ["expr1", "pred1", "expr2", "pred2"]:
-        grammar = CFG.fromstring(prd_dict[i])
-        index = 0
-        for sentence in generate(grammar):
-            index = index + 1
-            if i == "expr1":
-                expr1_list.append(str(' '.join(sentence)))
-            elif i == "pred1":
-                pred1_list.append(str(' '.join(sentence)))
-            elif i == "expr2":
-                expr2_list.append(str(' '.join(sentence)))
-            elif i == "pred2":
-                pred2_list.append(str(' '.join(sentence)))
-            else:
-                raise Exception("Sorry, no numbers below zero")
-
-    hypo_list = []
-
-    index = 0
-
-    # for expr1 in expr1_list:
-    #     hypo_list.append(expr1)
-        # for pred1 in pred1_list:
-        #     for expr2 in expr2_list:
-        #         for pred2 in pred2_list:
-        #             hypothesis = str(expr1 + "[" + pred1 + "]" + " = " + expr2 + "[" + pred2 + "]")
-        #             print(str(expr1 + "[" + pred1 + "]" + " = " + expr2 + "[" + pred2 + "]"))
-        #             hypo_list.append(hypothesis)
-        #             index = index + 1
-        #             # if index == 1000:
-        #             #     return hypo_list
-    
-
-    # for expr1 in expr1_list:
-    #     hypo_list.append(expr1)
-
-    for pred1 in pred1_list:
-        hypo_list.append(pred1)
-
-    return hypo_list

@@ -3,11 +3,6 @@ from funcs import *
 app = Flask(__name__)
 CORS(app)
 
-# @app.route("/")
-# def hello_world():
-#     return "<p>Hello, World!</p>"
-
-# @app.route("/", methods = ["GET", "POST"])
 @app.route('/users', methods=["GET", "POST"])
 def users():
     print("users endpoint reached...")
@@ -19,20 +14,14 @@ def users():
     
     if request.method == "POST":
         received_data = request.get_json()
-        hypo_string = received_data
-        grammar = CFG.fromstring(hypo_string)
+        expr1 = received_data['expr1']
+        pred1 = received_data['pred1']
+        expr2 = received_data['expr2']
+        pred2 = received_data['pred2']
 
-        # get the deterministic tree
-        tree_dict = findDeterministicTree(grammar)
+        hypotheses = combine_prds(received_data)
 
-        # generate hypotheses
-        sent_dict = Iterator(grammar, 200)
-        # print(sent_dict[0])
-
-        dict_list = [tree_dict, sent_dict]
-        data_to_json(dict_list, "sentence.json")
-
-        return flask.Response(response=json.dumps(dict_list, indent = 2), status=201)
+        return flask.Response(response=json.dumps(hypotheses, indent = 2), status=201)
 
 if __name__ == "__main__":
     app.debug = True
