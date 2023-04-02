@@ -1,0 +1,90 @@
+<html>
+<header>
+    <title>HypoExplorer</title>
+    <link rel="stylesheet" type="text/css" href="style.css" media="screen" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+    <script type="text/javascript" src="script.js"></script>
+</header>
+
+<div>
+    <h3>Fruits</h3>
+    <label>
+      <input type="checkbox" class="radio" value="1" name="fooby[1][]" />Kiwi</label>
+    <label>
+      <input type="checkbox" class="radio" value="1" name="fooby[1][]" />Jackfruit</label>
+    <label>
+      <input type="checkbox" class="radio" value="1" name="fooby[1][]" />Mango</label>
+  </div>
+  <div>
+    <h3>Animals</h3>
+    <label>
+      <input type="checkbox" class="radio" value="1" name="fooby[2][]" />Tiger</label>
+    <label>
+      <input type="checkbox" class="radio" value="1" name="fooby[2][]" />Sloth</label>
+    <label>
+      <input type="checkbox" class="radio" value="1" name="fooby[2][]" />Cheetah</label>
+  </div>
+
+<button class="button" role="button" id="send">Send</button>
+
+
+<h2>Expression 1</h2>
+
+<body>
+    <textarea name="Termial Symbol"  rows="10" cols="100" id="expr1">
+        expr -> func '(' var ')' | var
+        var -> attr | const
+        op -> '=' | '<'
+        attr -> 'customer_id' | 'first_name' | 'last_name' | 'age' | 'country'
+        const -> 'number'
+        const -> 'string'
+        func -> 'AVG' | 'MAX' | 'MIN' | 'COUNT'
+    </textarea>
+</body>
+
+<h2>Predicate 1</h2>
+<body>
+    <textarea name="Termial Symbol"  rows="10" cols="100" id="pred1">
+        pred -> var op const | 
+        var -> attr | const
+        op -> '=' | '<'
+        attr -> 'customer_id' | 'first_name' | 'last_name' | 'age' | 'country'
+        const -> '1' | '2' | '3' | '4' | '5' | '22' | '25' | '28' | '31' 
+        const -> "'Robert'" | "'John'" | "'David'" | "'Betty'" | "'Doe'" | "'Luna'" | "'Robinson'" | "'Reinhartd'" | "'USA'" | "'UK'" | "'UAE'"
+        func -> 'AVG' | 'MAX' | 'MIN' | 'COUNT'
+    </textarea>
+</body>
+<!-- <button class="button" role="button" id="send">Send</button> -->
+
+<h2>Expression 2</h2>
+<body>
+    <textarea name="Termial Symbol"  rows="10" cols="100" id="expr2">
+        expr -> func '(' var ')' | var
+        var -> attr | const
+        op -> '=' | '<'
+        attr -> 'customer_id' | 'first_name' | 'last_name' | 'age' | 'country'
+        const -> '1' | '2' | '3' | '4' | '5' | '22' | '25' | '28' | '31' 
+        const -> "'Robert'" | "'John'" | "'David'" | "'Betty'" | "'Doe'" | "'Luna'" | "'Robinson'" | "'Reinhartd'" | "'USA'" | "'UK'" | "'UAE'"
+        func -> 'AVG' | 'MAX' | 'MIN' | 'COUNT'
+    </textarea>
+</body>
+<!-- <button class="button" role="button" id="send">Send</button> -->
+
+<h2>Predicate 2</h2>
+<body>
+    <textarea name="Termial Symbol"  rows="10" cols="100" id="pred2">
+        pred -> var op const | 
+        var -> attr | const
+        op -> '=' | '<'
+        attr -> 'customer_id' | 'first_name' | 'last_name' | 'age' | 'country'
+        const -> '1' | '2' | '3' | '4' | '5' | '22' | '25' | '28' | '31' 
+        const -> "'Robert'" | "'John'" | "'David'" | "'Betty'" | "'Doe'" | "'Luna'" | "'Robinson'" | "'Reinhartd'" | "'USA'" | "'UK'" | "'UAE'"
+        func -> 'AVG' | 'MAX' | 'MIN' | 'COUNT'
+    </textarea>
+</body>
+<button class="button" role="button" id="send">Send</button>
+
+<div id="tree"></div>
+<div id="hypo_table"></div>
+
+</html>

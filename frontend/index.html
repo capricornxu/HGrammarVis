@@ -6,88 +6,83 @@
     <script type="text/javascript" src="script.js"></script>
 </header>
 
-<!-- <body>
-    <textarea name="Termial Symbol"  rows="20" cols="100" id="tgrm">
-        root -> hypo
-        hypo -> expr '[' pred ']' op expr '[' pred ']'
-        expr -> func '(' var ')' | var
-        var -> attr | const
-        pred -> var op const | 
-        op -> '=' | '<'
-        attr -> 'customer_id' | 'first_name' | 'last_name' | 'age' | 'country'
-        const -> '1' | '2' | '3' | '4' | '5' | '22' | '25' | '28' | '31' 
-        const -> "'Robert'" | "'John'" | "'David'" | "'Betty'" | "'Doe'" | "'Luna'" | "'Robinson'" | "'Reinhartd'" | "'USA'" | "'UK'" | "'UAE'"
-        func -> 'AVG' | 'MAX' | 'MIN' | 'COUNT'
-    </textarea>
-</body> -->
+<div>
+    <div id="expr">
+        <h2>Expr</h2>
 
-<h2>Expression 1</h2>
-<!-- <body>
-    <textarea name="Termial Symbol"  rows="10" cols="100" id="expr1">
-        expr -> func '(' var ')' | var
-        var -> attr | const
-        op -> '=' | '<'
-        attr -> 'customer_id' | 'first_name' | 'last_name' | 'age' | 'country'
-        const -> '1' | '2' | '3' | '4' | '5' | '22' | '25' | '28' | '31' 
-        const -> "'Robert'" | "'John'" | "'David'" | "'Betty'" | "'Doe'" | "'Luna'" | "'Robinson'" | "'Reinhartd'" | "'USA'" | "'UK'" | "'UAE'"
-        func -> 'AVG' | 'MAX' | 'MIN' | 'COUNT'
-    </textarea>
-</body> -->
+        <h3>Attribute</h3>
+        <input type="checkbox" class="attribute"  name="expr" checked/>
+        <label >customer_id</label>
+        <input type="checkbox" class="attribute"  name="expr" checked/>
+        <label >first_name</label>
+        <input type="checkbox" class="attribute"  name="expr" checked/>
+        <label >last_name</label>
+        <input type="checkbox" class="attribute"  name="expr" checked/>
+        <label >age</label>
+        <input type="checkbox" class="attribute"  name="expr" checked/>
+        <label >country</label>
 
-<body>
-    <textarea name="Termial Symbol"  rows="10" cols="100" id="expr1">
-        expr -> func '(' var ')' | var
-        var -> attr | const
-        op -> '=' | '<'
-        attr -> 'customer_id' | 'first_name' | 'last_name' | 'age' | 'country'
-        const -> 'number'
-        const -> 'string'
-        func -> 'AVG' | 'MAX' | 'MIN' | 'COUNT'
-    </textarea>
-</body>
-<!-- <button class="button" role="button" id="send">Send</button> -->
+        <h3>Const</h3>
+        <input type="checkbox" class="const"  name="expr" checked/>
+        <label>number</label>
+        <input type="checkbox" class="const"  name="expr" checked/>
+        <label>string</label>
 
-<h2>Predicate 1</h2>
-<body>
-    <textarea name="Termial Symbol"  rows="10" cols="100" id="pred1">
-        pred -> var op const | 
-        var -> attr | const
-        op -> '=' | '<'
-        attr -> 'customer_id' | 'first_name' | 'last_name' | 'age' | 'country'
-        const -> '1' | '2' | '3' | '4' | '5' | '22' | '25' | '28' | '31' 
-        const -> "'Robert'" | "'John'" | "'David'" | "'Betty'" | "'Doe'" | "'Luna'" | "'Robinson'" | "'Reinhartd'" | "'USA'" | "'UK'" | "'UAE'"
-        func -> 'AVG' | 'MAX' | 'MIN' | 'COUNT'
-    </textarea>
-</body>
-<!-- <button class="button" role="button" id="send">Send</button> -->
+        <h3>Function</h3>
+        <input type="checkbox" class="function"  name="expr" checked/>
+        <label>AVG</label>
+        <input type="checkbox" class="function"  name="expr" checked/>
+        <label>MAX</label>
+        <input type="checkbox" class="function"  name="expr" checked/>
+        <label>MIN</label>
+    </div>
+    <div id="pred">
+        <h2>Pred</h2>
 
-<h2>Expression 2</h2>
-<body>
-    <textarea name="Termial Symbol"  rows="10" cols="100" id="expr2">
-        expr -> func '(' var ')' | var
-        var -> attr | const
-        op -> '=' | '<'
-        attr -> 'customer_id' | 'first_name' | 'last_name' | 'age' | 'country'
-        const -> '1' | '2' | '3' | '4' | '5' | '22' | '25' | '28' | '31' 
-        const -> "'Robert'" | "'John'" | "'David'" | "'Betty'" | "'Doe'" | "'Luna'" | "'Robinson'" | "'Reinhartd'" | "'USA'" | "'UK'" | "'UAE'"
-        func -> 'AVG' | 'MAX' | 'MIN' | 'COUNT'
-    </textarea>
-</body>
-<!-- <button class="button" role="button" id="send">Send</button> -->
+        <h3>Attribute</h3>
+        <input type="checkbox" class="attribute" name="pred" checked/>
+        <label >customer_id</label>
+        <input type="checkbox" class="attribute" name="pred" checked/>
+        <label >first_name</label>
+        <input type="checkbox" class="attribute" name="pred" checked/>
+        <label >last_name</label>
+        <input type="checkbox" class="attribute" name="pred" checked/>
+        <label >age</label>
+        <input type="checkbox" class="attribute" name="pred" checked/>
+        <label >country</label>
 
-<h2>Predicate 2</h2>
-<body>
-    <textarea name="Termial Symbol"  rows="10" cols="100" id="pred2">
-        pred -> var op const | 
-        var -> attr | const
-        op -> '=' | '<'
-        attr -> 'customer_id' | 'first_name' | 'last_name' | 'age' | 'country'
-        const -> '1' | '2' | '3' | '4' | '5' | '22' | '25' | '28' | '31' 
-        const -> "'Robert'" | "'John'" | "'David'" | "'Betty'" | "'Doe'" | "'Luna'" | "'Robinson'" | "'Reinhartd'" | "'USA'" | "'UK'" | "'UAE'"
-        func -> 'AVG' | 'MAX' | 'MIN' | 'COUNT'
-    </textarea>
-</body>
-<button class="button" role="button" id="send">Send</button>
+        <h3>Const</h3>
+        <input type="checkbox" class="const" name="pred" checked/>
+        <label>number</label>
+        <input type="checkbox" class="const" name="pred" checked/>
+        <label>string</label>
+
+        <h3>Function</h3>
+        <input type="checkbox" class="function" name="pred" checked/>
+        <label>AVG</label>
+        <input type="checkbox" class="function" name="pred" checked/>
+        <label>MAX</label>
+        <input type="checkbox" class="function" name="pred" checked/>
+        <label>MIN</label>
+    </div>
+
+<button class="button" role="button" id="customize">Generate Grammar</button>
+<button class="button" role="button" id="generateHypo">Generate Hypothesis</button>
+<br/>
+
+<select id="component">
+    <option value="">-- Select an option --</option>
+    <option value="expr1">expr1</option>
+    <option value="pred1">pred1</option>
+    <option value="expr2">expr2</option>
+    <option value="pred2">pred2</option>
+</select>
+
+<ul id="chooseBox"></ul>
+
+<div id="expr_list"></div>
+<div id="pred_list"></div>
+<div id="hypothesis_list"></div>
 
 <div id="tree"></div>
 <div id="hypo_table"></div>

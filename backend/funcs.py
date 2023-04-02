@@ -76,6 +76,7 @@ def Iterator(
     num = None
 ):
     sent_dict = {}
+    sent_list = []
     index = 0
     for sentence in generate(grammar, n = num):
         print(sentence)
@@ -84,10 +85,11 @@ def Iterator(
         # eval = evaluation(sent, grammar)
         dictionary = {"sentence": sent,"evaluation":1}
         sent_dict.update({index: dictionary})
+        sent_list.append(sent)
         index = index + 1
         # print([str(' '.join(sentence))])
     
-    return sent_dict
+    return sent_list
 
 ### Write data to JSON file
 def data_to_json(
@@ -192,11 +194,19 @@ def evaluation(
     FROM Customers
     """
 
+    # sentence_test = sentence.replace("string", "'string'")
+    # sentence_test = sentence_test.replace("number", "1")
+    print("sentence-------------------------")
+    print(sentence)
     parse_tree = parser(sent = sentence, trace = 0, grammar = grammar)
     sql = hypo_to_sql(sql_template, parse_tree[0][0])
+    
 
     ### Load database
     sql_text = sql
+    sql_text = sql_text.replace("string", "'string'")
+    sql_text = sql_text.replace("number", "1")
+    print(sql_text)
 
     # create a database connection
     conn = sqlite3.connect(database)
@@ -207,10 +217,13 @@ def evaluation(
         c.execute(sql_text)
         print("* Evaluation Result\n")
         eval = c.fetchall()[0][0]
-        if eval == 1:
-            print(True)
-        else:
-            print(False)
+        print(eval)
+        if eval is not None:
+            print(eval)
+        # if eval == 1:
+        #     print(True)
+        # else:
+        #     print(False)
 
     return eval
 
@@ -236,6 +249,11 @@ def hypo_to_sql(
                 pred_list.append(pred)
             if subtree.label() == 'op':
                 op = subtree.leaves()
+    
+    # print("-----------------")
+    # print(expr_list)
+    # print(pred_list)
+    # print("-----------------")
 
     print("\n* SQL TEXT")
     sql = sql_template.replace('expr1', expr_list[0])
@@ -246,6 +264,17 @@ def hypo_to_sql(
     print(sql)
     
     return sql
+
+
+### transform dictionary to grammar string
+def dictTostring(grammarDict):
+    grammarString = ""
+
+    for key in grammarDict:
+        value = grammarDict[key]
+        grammarString = grammarString + key + " -> " + value + "\n"
+
+    return grammarString
 
 
 ### combine expr and pred to be hypothesis
@@ -281,22 +310,6 @@ def combine_prds(prd_dict):
     hypo_list = []
 
     index = 0
-
-    # for expr1 in expr1_list:
-    #     hypo_list.append(expr1)
-        # for pred1 in pred1_list:
-        #     for expr2 in expr2_list:
-        #         for pred2 in pred2_list:
-        #             hypothesis = str(expr1 + "[" + pred1 + "]" + " = " + expr2 + "[" + pred2 + "]")
-        #             print(str(expr1 + "[" + pred1 + "]" + " = " + expr2 + "[" + pred2 + "]"))
-        #             hypo_list.append(hypothesis)
-        #             index = index + 1
-        #             # if index == 1000:
-        #             #     return hypo_list
-    
-
-    # for expr1 in expr1_list:
-    #     hypo_list.append(expr1)
 
     for pred1 in pred1_list:
         hypo_list.append(pred1)
