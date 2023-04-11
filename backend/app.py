@@ -51,11 +51,11 @@ def hypo():
                     for p2 in pred2:
                         sent1 = e1 + " [ " + p1 + " ] " + " < " + e2 + " [ " + p2 + " ] "
                         sent2 = e1 + " [ " + p1 + " ] " + " = " + e2 + " [ " + p2 + " ] "
-                        eval1 = evaluation(sent1, hypoGrammar)
+                        # eval1 = evaluation(sent1, hypoGrammar)
                         # sentArray.append([sent1, eval1])
                         sentArray.append(sent1)
 
-                        eval2 = evaluation(sent2, hypoGrammar)
+                        # eval2 = evaluation(sent2, hypoGrammar)
                         # sentArray.append([sent2, eval2])
                         sentArray.append(sent2)
         

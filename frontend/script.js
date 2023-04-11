@@ -7,6 +7,13 @@
 // func -> 'AVG' | 'MAX' | 'MIN' | 'COUNT' \n \
 // "
 
+// Grammar components
+PartialGrammar = {
+    "attr": ['Model', 'MPG', 'Cylinders', 'Displacement', 'Horsepower', 'Weight', 'Acceleration', 'Year', 'Origin'],
+    "const": ['number', 'string'],
+    "func": ['AVG', 'MAX', 'MIN', 'COUNT']
+}
+
 const hypoGrammar = {
     "root": "hypo",
     "hypo": "expr '[' pred ']' op expr '[' pred ']'",
@@ -14,7 +21,8 @@ const hypoGrammar = {
     "var": "attr | const",
     "pred": "var op const | ",
     "op":"'=' | '<' | '>'",
-    "attr": "'customer_id' | 'first_name' | 'last_name' | 'age' | 'country'",
+    // "attr": "'customer_id' | 'first_name' | 'last_name' | 'age' | 'country'",
+    "attr": "'Model' | 'MPG' | 'Cylinders' | 'Displacement' | 'Horsepower' | 'Weight' | 'Acceleration' | 'Year' | 'Origin'",
     "const": "'number' | 'string'",
     "func": "'AVG' | 'MAX' | 'MIN' | 'COUNT'"
 }
@@ -22,7 +30,8 @@ const hypoGrammar = {
 const expr = {
     "expr": "func '(' var ')' | var",
     "var": "attr | const",
-    "attr": "'customer_id' | 'first_name' | 'last_name' | 'age' | 'country'",
+    // "attr": "'customer_id' | 'first_name' | 'last_name' | 'age' | 'country'",
+    "attr": "'Model' | 'MPG' | 'Cylinders' | 'Displacement' | 'Horsepower' | 'Weight' | 'Acceleration' | 'Year' | 'Origin'",
     "const": "'number' | 'string'",
     "func": "'AVG' | 'MAX' | 'MIN' "
 }
@@ -31,7 +40,8 @@ const pred = {
     "pred": "var op const | ",
     "var": "attr | const",
     "op":"'=' | '<' | '>'",
-    "attr": "'customer_id' | 'first_name' | 'last_name' | 'age' | 'country'",
+    // "attr": "'customer_id' | 'first_name' | 'last_name' | 'age' | 'country'",
+    "attr": "'Model' | 'MPG' | 'Cylinders' | 'Displacement' | 'Horsepower' | 'Weight' | 'Acceleration' | 'Year' | 'Origin'",
     "const": "'number' | 'string'",
     "func": "'AVG' | 'MAX' | 'MIN' | 'COUNT'"
 }
@@ -155,6 +165,33 @@ function showChooseBox(componentList, option) {
 
 // main entrance here
 $(document).ready(function(){
+    // read in partial grammar
+    $('#expr').append('<h3>Attribute</h3>')
+    $('#pred').append('<h3>Attribute</h3>')
+    $.each(PartialGrammar['attr'], function(index, value) {
+        $('#expr').append('<input type="checkbox" class="attribute"  name="expr" checked/> ')
+        $('#expr').append('<label >' + value + '</label>');
+        $('#pred').append('<input type="checkbox" class="attribute"  name="pred" checked/> ')
+        $('#pred').append('<label >' + value + '</label>');
+    });
+
+    $('#expr').append('<h3>Const</h3>')
+    $('#pred').append('<h3>Const</h3>')
+    $.each(PartialGrammar['const'], function(index, value) {
+        $('#expr').append('<input type="checkbox" class="const"  name="expr" checked/> ')
+        $('#expr').append('<label >' + value + ' </label>');
+        $('#pred').append('<input type="checkbox" class="const"  name="pred" checked/> ')
+        $('#pred').append('<label >' + value + ' </label>');
+    });
+
+    $('#expr').append('<h3>Function</h3>')
+    $('#pred').append('<h3>Function</h3>')
+    $.each(PartialGrammar['func'], function(index, value) {
+        $('#expr').append('<input type="checkbox" class="function"  name="expr" checked/> ')
+        $('#expr').append('<label >' + value + ' </label>')
+        $('#pred').append('<input type="checkbox" class="function"  name="pred" checked/> ')
+        $('#pred').append('<label >' + value + ' </label>')
+    });
 
     $("#customize").click(function(){
         // update expr
@@ -177,8 +214,6 @@ $(document).ready(function(){
         httpPostAsync("http://localhost:6969/users", 
                     [expr, pred],
                     sendGrammarCallback)
-        
-        
     })
 
     $("#component").change(function(){
