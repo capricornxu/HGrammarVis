@@ -18,13 +18,14 @@ def users():
         exprDict = received_data[0]
         exprString = dictTostring(exprDict)
         exprGrammar = CFG.fromstring(exprString)
-        expr_list = Iterator(exprGrammar)
+        expr_list = Iterator(exprGrammar, "expr")
+        # evaluation(exprGrammar,"Cars.db", "Cars_id.csv", "expr")
 
         #pred
         predDict = received_data[1]
         predString = dictTostring(predDict)
         predGrammar = CFG.fromstring(predString)
-        pred_list = Iterator(predGrammar)
+        pred_list = Iterator(predGrammar, "pred")
 
         output = [expr_list, pred_list]
 
@@ -41,7 +42,7 @@ def hypo():
         pred2 = received_data[3]
         hypoString = dictTostring(received_data[4])
         hypoGrammar = CFG.fromstring(hypoString)
-        print(hypoGrammar)
+        # print(hypoGrammar)
 
         op = ["<", "="]
         sentArray = []

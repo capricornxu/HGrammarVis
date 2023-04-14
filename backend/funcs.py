@@ -15,6 +15,29 @@ import flask
 from flask import Flask, request
 from flask_cors import CORS
 
+# type_dict = {'Car_id': 1, 
+#             'Model': 'volkswagen 1131 deluxe sedan',
+#             'MPG' : 26,
+#             'Cylinders': 4,
+#             'Displacement': 97,
+#             'Horsepower': 46,
+#             'Weight': 1835,
+#             'Acceleration': 20.5,
+#             'Year': 70,
+#             'Origin': 'Europe'}
+
+
+type_dict = {'Car_id': 'number', 
+            'Model': 'string',
+            'MPG' : 'number',
+            'Cylinders': 'number',
+            'Displacement': 'number',
+            'Horsepower': 'number',
+            'Weight': 'number',
+            'Acceleration': 'number',
+            'Year': 'number',
+            'Origin': 'string'}
+
 ### Hypothesis Parser
 def parser(
     print_times=False,
@@ -73,19 +96,25 @@ def parser(
 ### Hypothesis Iterator
 def Iterator(
     grammar,
+    sent_type,
     num = None
 ):
     sent_dict = {}
     sent_list = []
     index = 0
     for sentence in generate(grammar, n = num):
-        print(sentence)
+        # print(sentence)
         sent = str(' '.join(sentence))
+
         # sentence evaluation
-        # eval = evaluation(sent, grammar)
+        eval  = evaluation(sent, grammar,"Cars.db", "Cars_id.csv", sent_type)
+
         dictionary = {"sentence": sent,"evaluation":1}
         sent_dict.update({index: dictionary})
-        sent_list.append(sent)
+
+        if eval == 1:
+            sent_list.append(sent)
+
         index = index + 1
         # print([str(' '.join(sentence))])
     
@@ -160,72 +189,92 @@ def findDeterministicTree(
 ### evaluate sentence
 def evaluation(
     sentence,
-    grammar
+    grammar,
+    database,
+    datafile,
+    sentence_type
 ):
     ### Load database
-    database = "Customers.db"
+    database = database
 
-    sql_create_table = """CREATE TABLE IF NOT EXISTS Customers (
-                        customer_id integer PRIMARY KEY,
-                        first_name varchar[100],
-                        last_name varchar[100],
-                        age integer NOT NULL,
-                        country varchar[100]
+    sql_create_table = """CREATE TABLE IF NOT EXISTS Cars (
+                        Car_id integer PRIMARY KEY,
+                        Model TEXT NOT NULL,
+                        MPG integer NOT NULL,
+                        Cylinders integer NOT NULL,
+                        Displacement integer NOT NULL,
+                        Horsepower integer NOT NULL,
+                        Weight integer NOT NULL,
+                        Acceleration REAL NOT NULL,
+                        Year integer NOT NULL,
+                        Origin TEXT NOT NULL
                     );"""
 
     # create a database connection
-    os.remove("Customers.db")
+    os.remove(database)
     conn = sqlite3.connect(database)
 
     # create table
     if conn is not None:
         c = conn.cursor()
         c.execute(sql_create_table)
-        df = pd.read_csv("Customers.csv")
-        df.to_sql('Customers', conn, if_exists='append', index=False)
+        df = pd.read_csv(datafile)
+        df.to_sql('Cars', conn, if_exists='append', index=False)
         conn.close()
     
-    # transformation
-    sql_template = """
-    SELECT DISTINCT
-    ( SELECT expr1 FROM Customers WHERE pred1 )
-    =
-    ( SELECT expr2 FROM Customers WHERE pred2 )
-    FROM Customers
-    """
+    # # transformation
+    # sql_template = """
+    # SELECT DISTINCT
+    # ( SELECT expr1 FROM Cars WHERE pred1 )
+    # =
+    # ( SELECT expr2 FROM Cars WHERE pred2 )
+    # FROM Cars
+    # """
 
-    # sentence_test = sentence.replace("string", "'string'")
-    # sentence_test = sentence_test.replace("number", "1")
-    print("sentence-------------------------")
-    print(sentence)
-    parse_tree = parser(sent = sentence, trace = 0, grammar = grammar)
-    sql = hypo_to_sql(sql_template, parse_tree[0][0])
-    
+    # # sentence_test = sentence.replace("string", "'string'")
+    # # sentence_test = sentence_test.replace("number", "1")
+    if (sentence_type == "pred"):
+        parse_tree = parser(sent = sentence, trace = 0, grammar = grammar)
+        pred_array = parse_tree[0].leaves()
+        print(pred_array)
+        if len(pred_array) == 0:
+            return 1
+        elif pred_array[0] == "number":
+            return 0
+        elif pred_array[0] == "string":
+            return 0
+        else:
+            if type_dict[pred_array[0]] == pred_array[2]:
+                return 1
+            else:
+                return 0
+            # print(type_dict[pred_array[0]])
+    # sql = hypo_to_sql(sql_template, parse_tree[0][0])
 
-    ### Load database
-    sql_text = sql
-    sql_text = sql_text.replace("string", "'string'")
-    sql_text = sql_text.replace("number", "1")
-    print(sql_text)
+    # ### Load database
+    # sql_text = sql
+    # sql_text = sql_text.replace("string", "'string'")
+    # sql_text = sql_text.replace("number", "1")
+    # print(sql_text)
 
-    # create a database connection
-    conn = sqlite3.connect(database)
+    # # create a database connection
+    # conn = sqlite3.connect(database)
 
-    # create table
-    if conn is not None:
-        c = conn.cursor()
-        c.execute(sql_text)
-        print("* Evaluation Result\n")
-        eval = c.fetchall()[0][0]
-        print(eval)
-        if eval is not None:
-            print(eval)
-        # if eval == 1:
-        #     print(True)
-        # else:
-        #     print(False)
+    # # create table
+    # if conn is not None:
+    #     c = conn.cursor()
+    #     c.execute(sql_text)
+    #     print("* Evaluation Result\n")
+    #     eval = c.fetchall()[0][0]
+    #     print(eval)
+    #     if eval is not None:
+    #         print(eval)
+    #     # if eval == 1:
+    #     #     print(True)
+    #     # else:
+    #     #     print(False)
 
-    return eval
+    return 1
 
 # transform hypothesis to sql text
 def hypo_to_sql(

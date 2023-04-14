@@ -28,7 +28,7 @@ const hypoGrammar = {
 }
 
 const expr = {
-    "expr": "func '(' var ')' | var",
+    "expr": "func '(' var ')' | func '('  ')' | var",
     "var": "attr | const",
     // "attr": "'customer_id' | 'first_name' | 'last_name' | 'age' | 'country'",
     "attr": "'Model' | 'MPG' | 'Cylinders' | 'Displacement' | 'Horsepower' | 'Weight' | 'Acceleration' | 'Year' | 'Origin'",
@@ -37,6 +37,7 @@ const expr = {
 }
 
 const pred = {
+    // "pred": "var op const | var op const '&' var op const | ",
     "pred": "var op const | ",
     "var": "attr | const",
     "op":"'=' | '<' | '>'",
@@ -166,6 +167,7 @@ function showChooseBox(componentList, option) {
 // main entrance here
 $(document).ready(function(){
     // read in partial grammar
+    // console.log(PartialGrammar)
     $('#expr').append('<h3>Attribute</h3>')
     $('#pred').append('<h3>Attribute</h3>')
     $.each(PartialGrammar['attr'], function(index, value) {
@@ -179,18 +181,18 @@ $(document).ready(function(){
     $('#pred').append('<h3>Const</h3>')
     $.each(PartialGrammar['const'], function(index, value) {
         $('#expr').append('<input type="checkbox" class="const"  name="expr" checked/> ')
-        $('#expr').append('<label >' + value + ' </label>');
+        $('#expr').append('<label >' + value + '</label>');
         $('#pred').append('<input type="checkbox" class="const"  name="pred" checked/> ')
-        $('#pred').append('<label >' + value + ' </label>');
+        $('#pred').append('<label >' + value + '</label>');
     });
 
     $('#expr').append('<h3>Function</h3>')
     $('#pred').append('<h3>Function</h3>')
     $.each(PartialGrammar['func'], function(index, value) {
         $('#expr').append('<input type="checkbox" class="function"  name="expr" checked/> ')
-        $('#expr').append('<label >' + value + ' </label>')
+        $('#expr').append('<label >' + value + '</label>')
         $('#pred').append('<input type="checkbox" class="function"  name="pred" checked/> ')
-        $('#pred').append('<label >' + value + ' </label>')
+        $('#pred').append('<label >' + value + '</label>')
     });
 
     $("#customize").click(function(){
