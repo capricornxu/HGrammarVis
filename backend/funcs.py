@@ -243,6 +243,8 @@ def evaluation(
             return 0
         elif pred_array[0] == "string":
             return 0
+        elif len(pred_array) == 2:
+            return 0
         else:
             if type_dict[pred_array[0]] == pred_array[2]:
                 return 1
