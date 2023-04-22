@@ -27,7 +27,7 @@ var hypoGrammar = {
 
 const CDgrm = {
     "hypo": "expr '=' 'number' ",
-    "expr": " 'DIVIDE' '(' 'COUNT' '('  ')' '[' subpred ']' ',' 'COUNT' '('  ')' '[' pred ']' ')' | var '[' pred ']'",
+    "expr": " 'DIVIDE' '(' 'COUNT' '('  ')' '[' subpred ']' ',' 'COUNT' '('  ')' '[' pred ']' ')' ",
     "op":"'=' | '<' | '>'",
     "var": "attr | const ",
     "attr": "'Model' | 'MPG' | 'Cylinders' | 'Displacement' | 'Horsepower' | 'Weight' | 'Acceleration' | 'Year' | 'Origin'",

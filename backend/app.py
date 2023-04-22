@@ -29,7 +29,6 @@ def users():
             for j in range(i+1, len(pred_list)):
                 if pred_list[i][:2] != pred_list[j][:2]:
                     TwochainPL.append(pred_list[i] + " & " + pred_list[j])
-                    
 
         print(TwochainPL)
         output = OnechainPL + TwochainPL
