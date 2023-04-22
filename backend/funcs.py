@@ -15,18 +15,6 @@ import flask
 from flask import Flask, request
 from flask_cors import CORS
 
-# type_dict = {'Car_id': 1, 
-#             'Model': 'volkswagen 1131 deluxe sedan',
-#             'MPG' : 26,
-#             'Cylinders': 4,
-#             'Displacement': 97,
-#             'Horsepower': 46,
-#             'Weight': 1835,
-#             'Acceleration': 20.5,
-#             'Year': 70,
-#             'Origin': 'Europe'}
-
-
 type_dict = {'Car_id': 'number', 
             'Model': 'string',
             'MPG' : 'number',
@@ -89,7 +77,6 @@ def parser(
     if print_times:
         print("Time:", t)
     
-    # parses = chart.parses(grammar.start())
     return parses
 
 
@@ -110,9 +97,6 @@ def Iterator(
         # sentence evaluation
         # print("start iterating")
         eval  = evaluation(sent, grammar,"Cars.db", "Cars_id.csv", sent_type)
-
-        # dictionary = {"sentence": sent,"evaluation":1}
-        # sent_dict.update({index: dictionary})
 
         if eval == 1:
             # print(eval)
@@ -251,6 +235,9 @@ def evaluation(
                 return 0
             # print(type_dict[pred_array[0]])
     # sql = hypo_to_sql(sql_template, parse_tree[0][0])
+
+    if (sentence_type == "hypo"):
+        return 1
 
     # ### Load database
     # sql_text = sql

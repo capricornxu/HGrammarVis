@@ -45,9 +45,18 @@ def hypo():
         hypoGrammar = CFG.fromstring(hypoString)
         print(hypoGrammar)
         hypo_list = Iterator(hypoGrammar, "hypo")
-        print(hypo_list)
-        
-        return flask.Response(response=json.dumps(hypo_list, indent = 2), status=201)
+        newhypo_list = []
+        for hypo in hypo_list:
+           new_hypo = hypo.replace(' [ ]', '')
+           newhypo_list.append(new_hypo)
+
+        # Open a file for writing
+        with open('hypoList.json', 'w') as f:
+            # Convert the array to JSON data and write it to the file
+            json.dump(newhypo_list, f)
+
+
+        return flask.Response(response=json.dumps(newhypo_list, indent = 2), status=201)
 
 if __name__ == "__main__":
     app.debug = True

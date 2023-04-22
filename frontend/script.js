@@ -16,14 +16,14 @@ var hypoGrammar = {
     "func": "'AVG' | 'MAX' | 'MIN' | 'COUNT'"
 }
 
-var pred = {
-    "pred": "var op const | ",
-    "var": "attr | const",
-    "op":"'=' | '<' | '>'",
-    "attr": "'Model' | 'MPG' | 'Cylinders' | 'Displacement' | 'Horsepower' | 'Weight' | 'Acceleration' | 'Year' | 'Origin'",
-    "const": "'number' | 'string'",
-    "func": "'AVG' | 'MAX' | 'MIN' | 'COUNT'"
-}
+// var pred = {
+//     "pred": "var op const | ",
+//     "var": "attr | const",
+//     "op":"'=' | '<' | '>'",
+//     "attr": "'Model' | 'MPG' | 'Cylinders' | 'Displacement' | 'Horsepower' | 'Weight' | 'Acceleration' | 'Year' | 'Origin'",
+//     "const": "'number' | 'string'",
+//     "func": "'AVG' | 'MAX' | 'MIN' | 'COUNT'"
+// }
 
 const CDgrm = {
     "hypo": "expr '=' 'number' ",
@@ -70,14 +70,12 @@ const ANOMgrm = {
 
 
 const EXTREgrm = {
-    "hypo": "func '[' attr ']' op attr '[' pred ']' ",
-    "expr": "func '(' var ')' | var",    
+    "hypo": "func '(' attr ')' op attr '[' pred ']' |  'COUNT' '(' ')' '[' pred ']' op attr '[' pred ']'",
     "op":"'=' | '<' | '>'",
     "var": "attr ",
     "attr": "'Model' | 'MPG' | 'Cylinders' | 'Displacement' | 'Horsepower' | 'Weight' | 'Acceleration' | 'Year' | 'Origin'",
     "const": "'number' | 'string'",
-    // "func": "'COUNT' | 'MIN' | 'AVG' | 'MAX' ",
-    "func": "'MIN' ",
+    "func": "'MIN' | 'AVG' | 'MAX' ",
     "pred": " | subpred ",
     "subpred": " "
 }
