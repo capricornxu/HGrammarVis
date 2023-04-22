@@ -1,58 +1,90 @@
 // Grammar components
-// expr1 = "expr -> func '(' var ')' | var \n \
-// var -> attr | const \n \
-// op -> '=' | '<' \n \
-// attr -> 'customer_id' | 'first_name' | 'last_name' | 'age' | 'country' \n \
-// const -> 'number' | 'string' \n \
-// func -> 'AVG' | 'MAX' | 'MIN' | 'COUNT' \n \
-// "
-
-// Grammar components
 PartialGrammar = {
     "attr": ['Model', 'MPG', 'Cylinders', 'Displacement', 'Horsepower', 'Weight', 'Acceleration', 'Year', 'Origin'],
     "const": ['number', 'string'],
     "func": ['AVG', 'MAX', 'MIN', 'COUNT']
 }
 
-const hypoGrammar = {
-    "root": "hypo",
+var hypoGrammar = {
     "hypo": "expr '[' pred ']' op expr '[' pred ']'",
     "expr": "func '(' var ')' | var",
     "var": "attr | const",
     "pred": "var op const | ",
     "op":"'=' | '<' | '>'",
-    // "attr": "'customer_id' | 'first_name' | 'last_name' | 'age' | 'country'",
     "attr": "'Model' | 'MPG' | 'Cylinders' | 'Displacement' | 'Horsepower' | 'Weight' | 'Acceleration' | 'Year' | 'Origin'",
     "const": "'number' | 'string'",
     "func": "'AVG' | 'MAX' | 'MIN' | 'COUNT'"
 }
 
-const expr = {
-    "expr": "func '(' var ')' | func '('  ')' | var",
-    "var": "attr | const",
-    // "attr": "'customer_id' | 'first_name' | 'last_name' | 'age' | 'country'",
-    "attr": "'Model' | 'MPG' | 'Cylinders' | 'Displacement' | 'Horsepower' | 'Weight' | 'Acceleration' | 'Year' | 'Origin'",
-    "const": "'number' | 'string'",
-    "func": "'AVG' | 'MAX' | 'MIN' "
-}
-
-const pred = {
-    // "pred": "var op const | var op const '&' var op const | ",
+var pred = {
     "pred": "var op const | ",
     "var": "attr | const",
     "op":"'=' | '<' | '>'",
-    // "attr": "'customer_id' | 'first_name' | 'last_name' | 'age' | 'country'",
     "attr": "'Model' | 'MPG' | 'Cylinders' | 'Displacement' | 'Horsepower' | 'Weight' | 'Acceleration' | 'Year' | 'Origin'",
     "const": "'number' | 'string'",
     "func": "'AVG' | 'MAX' | 'MIN' | 'COUNT'"
 }
 
+const CDgrm = {
+    "hypo": "expr '=' 'number' ",
+    "expr": " 'DIVIDE' '(' 'COUNT' '('  ')' '[' pred ']' ',' 'COUNT' '('  ')' '[' pred ']' ')' | var '[' pred ']'",
+    "op":"'=' | '<' | '>'",
+    "var": "attr | const ",
+    "attr": "'Model' | 'MPG' | 'Cylinders' | 'Displacement' | 'Horsepower' | 'Weight' | 'Acceleration' | 'Year' | 'Origin'",
+    "const": "'number' | 'string'",
+    "func": "'DIVIDE' | 'COUNT' | 'Q1' ",
+    "pred": " | subpred ",
+    "subpred": " "
+}
+
+const CDpred = {
+    "pred": " var op const",
+    "var": "attr | const",
+    "op":"'=' | '<' | '>'",
+    "attr": "'Model' | 'MPG' | 'Cylinders' | 'Displacement' | 'Horsepower' | 'Weight' | 'Acceleration' | 'Year' | 'Origin'",
+    "const": "'number' | 'string'",
+}
+
+const CORRgrm = {
+    "hypo": "expr '=' 'number' ",
+    "expr": " 'CORR' '(' attr ',' attr ')' '[' pred ']'",
+    "op":"'=' | '<' | '>'",
+    "var": "attr | const ",
+    "attr": "'Model' | 'MPG' | 'Cylinders' | 'Displacement' | 'Horsepower' | 'Weight' | 'Acceleration' | 'Year' | 'Origin'",
+    "const": "'number' | 'string'",
+    "func": "'DIVIDE' | 'COUNT' | 'Q1' ",
+    "pred": " | subpred ",
+    "subpred": " "
+}
+
+const ANOMgrm = {
+    "hypo": "expr op 'Q1 - 1.5 * IQR' |  expr op 'Q3 + 1.5 * IQR'",
+    "expr": " attr '[' pred ']'",
+    "op": "'=' | '<' | '>'",
+    "var": "attr | const ",
+    "const": "'number' | 'string'",
+    "func": "'DIVIDE' | 'COUNT' | 'Q1' ",
+    "pred": " 'Model' '=' 'string' ",
+    "subpred": " "
+}
+
+
+const EXTREgrm = {
+    "hypo": "func '[' attr ']' op attr '[' pred ']' ",
+    "expr": "func '(' var ')' | var",    
+    "op":"'=' | '<' | '>'",
+    "var": "attr ",
+    "attr": "'Model' | 'MPG' | 'Cylinders' | 'Displacement' | 'Horsepower' | 'Weight' | 'Acceleration' | 'Year' | 'Origin'",
+    "const": "'number' | 'string'",
+    // "func": "'COUNT' | 'MIN' | 'AVG' | 'MAX' ",
+    "func": "'MIN' ",
+    "pred": " | subpred ",
+    "subpred": " "
+}
+
 var exprList = []
-var predList = []
-var expr1List = []
-var pred1List = []
-var expr2List = []
-var pred2List = []
+var subpredList = []
+var chooseList = []
 
 var li
 
@@ -85,9 +117,10 @@ function httpPostAsync(url, data, callback) {
 
 function sendGrammarCallback(responseText){
     receivedData = JSON.parse(responseText)
-    console.log(JSON.parse(responseText))
-    exprList = receivedData[0]
-    predList = receivedData[1]
+    console.log(receivedData)
+    subpredList = receivedData
+    showChooseBox(subpredList)
+    console.log(hypoGrammar)
 }
 
 function sendComponentsCallback(responseText){
@@ -102,17 +135,17 @@ function updateProduction(userChoice){
         const element = userChoice[index];
         if (element["checked"] == true) {
             label_name = element.nextElementSibling.innerHTML
-            if(index == userChoice.length - 1){
+            if(tempRightprod.length == 0){
                 tempRightprod = tempRightprod + "'" + label_name + "'" 
             }else{
-                tempRightprod = tempRightprod + "'" + label_name + "'" + " | "
+                tempRightprod = tempRightprod + " | " + "'" + label_name + "'" 
             }
         }
     }
     return tempRightprod
 }
 
-function showChooseBox(componentList, option) {
+function showChooseBox(componentList) {
     $("#chooseBox").empty()
 
     $.each(componentList, function(index, value){
@@ -123,115 +156,82 @@ function showChooseBox(componentList, option) {
 
         li.on('click', function(){
             $(this).addClass('selected');
-            if (option == "expr1"){
-                expr1List.push($(this).attr("data-item"))
-            }else if(option == "pred1"){
-                pred1List.push($(this).attr("data-item"))
-            }else if(option == "expr2"){
-                expr2List.push($(this).attr("data-item"))
-            }else{
-                pred2List.push($(this).attr("data-item"))
-            }
-            console.log(expr1List)
-            console.log(pred1List)
-            console.log(expr2List)
-            console.log(pred2List)
+            chooseList.push($(this).attr("data-item"))
         });
     })
 
-    $("#chooseBox li").each(function(){
-        value = $(this).attr("data-item")
-        if(option == "expr1"){
-            if($.inArray(value, expr1List) != -1){
-                $(this).addClass("selected")
-            }
-        }else if(option == "pred1"){
-            if($.inArray(value, pred1List) != -1){
-                $(this).addClass("selected")
-            }
-        }else if(option == "expr2"){
-            if($.inArray(value, expr2List) != -1){
-                $(this).addClass("selected")
-            }
-        }else{
-            if($.inArray(value, pred2List) != -1){
-                $(this).addClass("selected")
-            }
-        }
-        
-    })
-
-    return li
+    return chooseList
 }
 
 // main entrance here
 $(document).ready(function(){
     // read in partial grammar
-    // console.log(PartialGrammar)
-    $('#expr').append('<h3>Attribute</h3>')
-    $('#pred').append('<h3>Attribute</h3>')
     $.each(PartialGrammar['attr'], function(index, value) {
-        $('#expr').append('<input type="checkbox" class="attribute"  name="expr" checked/> ')
-        $('#expr').append('<label >' + value + '</label>');
-        $('#pred').append('<input type="checkbox" class="attribute"  name="pred" checked/> ')
-        $('#pred').append('<label >' + value + '</label>');
+        $('#attr').append('<input type="checkbox" class="attribute"  name="attr" unchecked/> ')
+        $('#attr').append('<label >' + value + '</label>');
     });
 
-    $('#expr').append('<h3>Const</h3>')
-    $('#pred').append('<h3>Const</h3>')
-    $.each(PartialGrammar['const'], function(index, value) {
-        $('#expr').append('<input type="checkbox" class="const"  name="expr" checked/> ')
-        $('#expr').append('<label >' + value + '</label>');
-        $('#pred').append('<input type="checkbox" class="const"  name="pred" checked/> ')
-        $('#pred').append('<label >' + value + '</label>');
-    });
-
-    $('#expr').append('<h3>Function</h3>')
-    $('#pred').append('<h3>Function</h3>')
-    $.each(PartialGrammar['func'], function(index, value) {
-        $('#expr').append('<input type="checkbox" class="function"  name="expr" checked/> ')
-        $('#expr').append('<label >' + value + '</label>')
-        $('#pred').append('<input type="checkbox" class="function"  name="pred" checked/> ')
-        $('#pred').append('<label >' + value + '</label>')
+    taskList = ["Characterize Distribution", "Correlation", "Find anomalies", "Find extremum"]
+    $.each(taskList, function(index, value) {
+        $('#task').append('<input type="checkbox" class="task"  name="expr" unchecked/> ')
+        $('#task').append('<label >' + value + '</label>')
     });
 
     $("#customize").click(function(){
-        // update expr
-        var expr_attr = $("#expr .attribute")
-        expr["attr"] = updateProduction(expr_attr)
-        var expr_const = $("#expr .const")
-        expr["const"] = updateProduction(expr_const)
-        var expr_func = $("#expr .function")
-        expr["func"] = updateProduction(expr_func)
-
-        // update pred
-        var pred_attr = $("#pred .attribute")
-        pred["attr"] = updateProduction(pred_attr)
-        var pred_const = $("#pred .const")
-        pred["const"] = updateProduction(pred_const)
-        var pred_func = $("#pred .function")
-        pred["func"] = updateProduction(pred_func)
+        // task
+        var task = $("#task .task")
+        $.each(task, function(index){
+            if(task[index]["checked"] == true){
+                console.log(taskList[index]);
+                switch (index) {
+                    case 0:
+                        hypoGrammar = CDgrm
+                        pred = CDpred
+                        break;
+                    case 1:
+                        hypoGrammar = CORRgrm
+                        pred = CDpred
+                        break;
+                    case 2:
+                        hypoGrammar = ANOMgrm
+                        pred = CDpred
+                        break;
+                    case 3:
+                        hypoGrammar = EXTREgrm
+                        pred = CDpred
+                        break;
+                  }
+            }
+        })
+        
+        // attribute
+        var attribute = $("#attr .attribute")
+        attrList = updateProduction(attribute)
+        hypoGrammar['attr'] = attrList
+        pred['attr'] = attrList
+        // console.log(pred)
 
         // sent to backend
         httpPostAsync("http://localhost:6969/users", 
-                    [expr, pred],
+                    pred,
                     sendGrammarCallback)
     })
 
-    $("#component").change(function(){
-        var value = $("#component option:selected").text()
-        if(value == "expr1" || value == "expr2"){
-            console.log(exprList)
-            li = showChooseBox(exprList, value)
-        }else if(value == "pred1" || value == "pred2"){
-            li = showChooseBox(predList, value)
-        }
-    })
-
     $("#generateHypo").click(function(){
+
+        var tempRightprod = ""
+        $.each(chooseList, function(index){
+            if(tempRightprod.length == 0){
+                tempRightprod = tempRightprod + "'" + chooseList[index] + "'" 
+            }else{
+                tempRightprod = tempRightprod + " | " + "'" + chooseList[index] + "'"
+            }
+        })
+        hypoGrammar['subpred'] = tempRightprod
+
         // sent to backend
         httpPostAsync("http://localhost:6969/hypo", 
-                    [expr1List, pred1List, expr2List, pred2List, hypoGrammar],
+                    hypoGrammar,
                     sendComponentsCallback)
     })
 });

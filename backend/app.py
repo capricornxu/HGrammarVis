@@ -14,20 +14,25 @@ def users():
     
     if request.method == "POST":
         received_data = request.get_json()
-        # expr
-        exprDict = received_data[0]
-        exprString = dictTostring(exprDict)
-        exprGrammar = CFG.fromstring(exprString)
-        expr_list = Iterator(exprGrammar, "expr")
-        # evaluation(exprGrammar,"Cars.db", "Cars_id.csv", "expr")
-
         #pred
-        predDict = received_data[1]
+        predDict = received_data
+        print(predDict)
         predString = dictTostring(predDict)
         predGrammar = CFG.fromstring(predString)
         pred_list = Iterator(predGrammar, "pred")
+        print(pred_list[0])
+        print(pred_list[0][:2])
 
-        output = [expr_list, pred_list]
+        OnechainPL = pred_list
+        TwochainPL = []
+        for i in range(len(pred_list)):
+            for j in range(i+1, len(pred_list)):
+                if pred_list[i][:2] != pred_list[j][:2]:
+                    TwochainPL.append(pred_list[i] + " & " + pred_list[j])
+                    
+
+        print(TwochainPL)
+        output = OnechainPL + TwochainPL
 
         return flask.Response(response=json.dumps(output, indent = 2), status=201)
 
@@ -36,31 +41,13 @@ def users():
 def hypo():
     if request.method == "POST":
         received_data = request.get_json()
-        expr1 = received_data[0]
-        pred1 = received_data[1]
-        expr2 = received_data[2]
-        pred2 = received_data[3]
-        hypoString = dictTostring(received_data[4])
+        hypoString = dictTostring(received_data)
         hypoGrammar = CFG.fromstring(hypoString)
-        # print(hypoGrammar)
-
-        op = ["<", "="]
-        sentArray = []
-        for e1 in expr1:
-            for p1 in pred1:
-                for e2 in expr2:
-                    for p2 in pred2:
-                        sent1 = e1 + " [ " + p1 + " ] " + " < " + e2 + " [ " + p2 + " ] "
-                        sent2 = e1 + " [ " + p1 + " ] " + " = " + e2 + " [ " + p2 + " ] "
-                        # eval1 = evaluation(sent1, hypoGrammar)
-                        # sentArray.append([sent1, eval1])
-                        sentArray.append(sent1)
-
-                        # eval2 = evaluation(sent2, hypoGrammar)
-                        # sentArray.append([sent2, eval2])
-                        sentArray.append(sent2)
+        print(hypoGrammar)
+        hypo_list = Iterator(hypoGrammar, "hypo")
+        print(hypo_list)
         
-        return flask.Response(response=json.dumps(sentArray, indent = 2), status=201)
+        return flask.Response(response=json.dumps(hypo_list, indent = 2), status=201)
 
 if __name__ == "__main__":
     app.debug = True

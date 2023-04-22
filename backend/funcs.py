@@ -102,20 +102,26 @@ def Iterator(
     sent_dict = {}
     sent_list = []
     index = 0
+    
     for sentence in generate(grammar, n = num):
-        # print(sentence)
         sent = str(' '.join(sentence))
+        print(sent)
 
         # sentence evaluation
+        # print("start iterating")
         eval  = evaluation(sent, grammar,"Cars.db", "Cars_id.csv", sent_type)
 
-        dictionary = {"sentence": sent,"evaluation":1}
-        sent_dict.update({index: dictionary})
+        # dictionary = {"sentence": sent,"evaluation":1}
+        # sent_dict.update({index: dictionary})
 
         if eval == 1:
+            # print(eval)
             sent_list.append(sent)
 
+        # sent_list.append(sent)
+
         index = index + 1
+        print(index)
         # print([str(' '.join(sentence))])
     
     return sent_list
@@ -221,16 +227,7 @@ def evaluation(
         df = pd.read_csv(datafile)
         df.to_sql('Cars', conn, if_exists='append', index=False)
         conn.close()
-    
-    # # transformation
-    # sql_template = """
-    # SELECT DISTINCT
-    # ( SELECT expr1 FROM Cars WHERE pred1 )
-    # =
-    # ( SELECT expr2 FROM Cars WHERE pred2 )
-    # FROM Cars
-    # """
-
+        
     # # sentence_test = sentence.replace("string", "'string'")
     # # sentence_test = sentence_test.replace("number", "1")
     if (sentence_type == "pred"):
@@ -244,6 +241,8 @@ def evaluation(
         elif pred_array[0] == "string":
             return 0
         elif len(pred_array) == 2:
+            return 0
+        elif pred_array[2] == "string" and pred_array[1] != "=":
             return 0
         else:
             if type_dict[pred_array[0]] == pred_array[2]:
