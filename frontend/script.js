@@ -16,14 +16,13 @@ var hypoGrammar = {
     "func": "'AVG' | 'MAX' | 'MIN' | 'COUNT'"
 }
 
-// var pred = {
-//     "pred": "var op const | ",
-//     "var": "attr | const",
-//     "op":"'=' | '<' | '>'",
-//     "attr": "'Model' | 'MPG' | 'Cylinders' | 'Displacement' | 'Horsepower' | 'Weight' | 'Acceleration' | 'Year' | 'Origin'",
-//     "const": "'number' | 'string'",
-//     "func": "'AVG' | 'MAX' | 'MIN' | 'COUNT'"
-// }
+var pred = {
+    "pred": " var '=' const",
+    "var": "attr | const",
+    "op":"'=' | '<' | '>'",
+    "attr": "'Model' | 'MPG' | 'Cylinders' | 'Displacement' | 'Horsepower' | 'Weight' | 'Acceleration' | 'Year' | 'Origin'",
+    "const": "'number' | 'string'",
+}
 
 const CDgrm = {
     "hypo": "expr '=' 'number' ",
@@ -38,9 +37,10 @@ const CDgrm = {
 }
 
 const CDpred = {
-    "pred": " var op const",
+    "pred": " var '=' const ",
+    "func": "'Q1' | 'Q3'",
     "var": "attr | const",
-    "op":"'=' | '<' | '>'",
+    // "op":"'=' | '<' | '>'",
     "attr": "'Model' | 'MPG' | 'Cylinders' | 'Displacement' | 'Horsepower' | 'Weight' | 'Acceleration' | 'Year' | 'Origin'",
     "const": "'number' | 'string'",
 }
@@ -64,7 +64,7 @@ const ANOMgrm = {
     "var": "attr | const ",
     "const": "'number' | 'string'",
     "func": "'DIVIDE' | 'COUNT' | 'Q1' ",
-    "pred": " 'Model' '=' 'string' ",
+    "pred": " subpred ",
     "subpred": " "
 }
 
@@ -188,15 +188,15 @@ $(document).ready(function(){
                         break;
                     case 1:
                         hypoGrammar = CORRgrm
-                        pred = CDpred
+                        // pred = pred
                         break;
                     case 2:
                         hypoGrammar = ANOMgrm
-                        pred = CDpred
+                        // pred = pred
                         break;
                     case 3:
                         hypoGrammar = EXTREgrm
-                        pred = CDpred
+                        // pred = pred
                         break;
                   }
             }

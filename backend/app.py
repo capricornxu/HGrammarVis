@@ -30,8 +30,15 @@ def users():
                 if pred_list[i][:2] != pred_list[j][:2]:
                     TwochainPL.append(pred_list[i] + " & " + pred_list[j])
 
-        print(TwochainPL)
-        output = OnechainPL + TwochainPL
+        # print(TwochainPL)
+        ThreechainPL = []
+        for i in range(len(pred_list)):
+            for j in range(i+1, len(pred_list)):
+                for k in range(i + 2, len(pred_list)):
+                    if (pred_list[i][:2] != pred_list[j][:2]) & ( pred_list[i][:2] != pred_list[k][:2] ) & (pred_list[j][:2] != pred_list[k][:2]):
+                        ThreechainPL.append(pred_list[i] + " & " + pred_list[j] + " & " + pred_list[k])
+
+        output = OnechainPL + TwochainPL + ThreechainPL
 
         return flask.Response(response=json.dumps(output, indent = 2), status=201)
 
