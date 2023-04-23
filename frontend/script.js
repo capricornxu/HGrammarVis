@@ -17,8 +17,9 @@ var hypoGrammar = {
 }
 
 var pred = {
-    "pred": " var '=' const",
+    "pred": " var op const",
     "var": "attr | const",
+    // "op":"'=' | '<' | '>'",
     "op":"'=' | '<' | '>'",
     "attr": "'Model' | 'MPG' | 'Cylinders' | 'Displacement' | 'Horsepower' | 'Weight' | 'Acceleration' | 'Year' | 'Origin'",
     "const": "'number' | 'string'",
@@ -37,10 +38,11 @@ const CDgrm = {
 }
 
 const CDpred = {
-    "pred": " var '=' const ",
+    "pred": " var op const ",
     "func": "'Q1' | 'Q3'",
     "var": "attr | const",
     // "op":"'=' | '<' | '>'",
+    "op":"'=' | '<'",
     "attr": "'Model' | 'MPG' | 'Cylinders' | 'Displacement' | 'Horsepower' | 'Weight' | 'Acceleration' | 'Year' | 'Origin'",
     "const": "'number' | 'string'",
 }
@@ -58,14 +60,18 @@ const CORRgrm = {
 }
 
 const ANOMgrm = {
-    "hypo": "expr op 'Q1 - 1.5 * IQR' |  expr op 'Q3 + 1.5 * IQR'",
-    "expr": " attr '[' pred ']'",
+    "hypo": " 'MAX' '(' expr ')' '<' 'Q1 - 1.5 * IQR' | 'MIN' '(' expr ')' '>' 'Q3 + 1.5 * IQR'",
+    "expr": " attr '[' 'Model' '=' 'string' ']'",
     "op": "'=' | '<' | '>'",
     "var": "attr | const ",
     "const": "'number' | 'string'",
     "func": "'DIVIDE' | 'COUNT' | 'Q1' ",
     "pred": " subpred ",
     "subpred": " "
+}
+
+const ANOMpred = {
+    "pred": "",
 }
 
 
@@ -192,7 +198,7 @@ $(document).ready(function(){
                         break;
                     case 2:
                         hypoGrammar = ANOMgrm
-                        // pred = pred
+                        pred = ANOMpred
                         break;
                     case 3:
                         hypoGrammar = EXTREgrm
