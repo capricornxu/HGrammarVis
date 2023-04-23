@@ -76,7 +76,10 @@ const ANOMpred = {
 
 
 const EXTREgrm = {
-    "hypo": "func '(' attr ')' op attr '[' pred ']' |  'COUNT' '(' ')' '[' pred ']' op attr '[' pred ']'",
+    "hypo": "'COUNT' '(' ')' '[' pred ']' op COUNT '[' '!' '(' pred ')' ']'",
+    "hypo": "'MAX' '(' attr ')' op 'MAX' '(' attr ')' '[' pred ']' ",
+    "hypo": "'MIN' '(' attr ')' op 'MIN' '(' attr ')' '[' pred ']' ",
+    "hypo": "'AVG' '(' attr ')' op 'AVG' '(' attr ')' '[' pred ']' ",  
     "op":"'=' | '<' | '>'",
     "var": "attr ",
     "attr": "'Model' | 'MPG' | 'Cylinders' | 'Displacement' | 'Horsepower' | 'Weight' | 'Acceleration' | 'Year' | 'Origin'",
