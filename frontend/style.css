@@ -2,6 +2,11 @@
 	background-color: yellow;
 }
 
+.highlight {
+	background-color: yellow;
+	font-weight: bold;
+}
+
 
 /* It's supposed to look like a tree diagram */
 .tree,

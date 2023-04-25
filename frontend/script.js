@@ -19,7 +19,6 @@ var hypoGrammar = {
 var pred = {
     "pred": " var op const",
     "var": "attr | const",
-    // "op":"'=' | '<' | '>'",
     "op":"'=' | '<' | '>'",
     "attr": "'Model' | 'MPG' | 'Cylinders' | 'Displacement' | 'Horsepower' | 'Weight' | 'Acceleration' | 'Year' | 'Origin'",
     "const": "'number' | 'string'",
@@ -41,8 +40,7 @@ const CDpred = {
     "pred": " var op const ",
     "func": "'Q1' | 'Q3'",
     "var": "attr | const",
-    // "op":"'=' | '<' | '>'",
-    "op":"'=' | '<'",
+    "op":"'=' | '<' | '>'",
     "attr": "'Model' | 'MPG' | 'Cylinders' | 'Displacement' | 'Horsepower' | 'Weight' | 'Acceleration' | 'Year' | 'Origin'",
     "const": "'number' | 'string'",
 }
@@ -74,7 +72,6 @@ const ANOMpred = {
     "pred": "",
 }
 
-
 const EXTREgrm = {
     "hypo": "'COUNT' '(' ')' '[' pred ']' op COUNT '[' '!' '(' pred ')' ']'",
     "hypo": "'MAX' '(' attr ')' op 'MAX' '(' attr ')' '[' pred ']' ",
@@ -89,12 +86,23 @@ const EXTREgrm = {
     "subpred": " "
 }
 
+var attrArray = ["Model", "MPG", "Cylinders", "Displacement", "Horsepower", "Weight", "Acceleration", "Year", "Origin"]
+
+var attrDict = {"Model": "pontiac grand prix",
+                "MPG": 16,
+                "Cylinders": 8,
+                "Displacement": 400,
+                "Horsepower": 230,
+                "Weight": 4278,
+                "Acceleration": 9.5,
+                "Year": 73,
+                "Origin": "US"
+            }
+
 var exprList = []
 var subpredList = []
 var chooseList = []
-
 var li
-
 
 // Get Request
 function httpGetAsync(theUrl, callback)
@@ -133,6 +141,30 @@ function sendGrammarCallback(responseText){
 function sendComponentsCallback(responseText){
     receivedData = JSON.parse(responseText)
     console.log(receivedData)
+
+    $.each(receivedData,function(index, data){
+        hypoArray = $.trim(data).split(/\s+/)
+        constIndex = []
+        $.each(hypoArray, function(index, element) {
+            // find the indices of number and string in the array
+            if (element === "string" || element === "number") {
+                targetElement = hypoArray[index - 2]
+                if ($.inArray(targetElement, Object.keys(attrDict)) !== -1){
+                    console.log(targetElement)
+                    // hypoArray[index] = "<span class='highlight'>" +  attrDict[targetElement] + "</span>"
+                    hypoArray[index] = "<select class='highlight'>" + " <option value='option1'>" +  attrDict[targetElement] + "</option>" + "</select>"
+                    console.log(hypoArray)
+                }
+                // console.log(targetElemnet)
+            }
+        });
+        receivedData[index] = hypoArray.join(" ")
+        // check if it follows an attribute
+
+        // if so change it to an example of the attribute
+    })
+    
+    
     $("#hypothesis_list").html(receivedData.join("<br/>"))
 }
 
@@ -172,6 +204,7 @@ function showChooseBox(componentList) {
 
 // main entrance here
 $(document).ready(function(){
+
     // read in partial grammar
     $.each(PartialGrammar['attr'], function(index, value) {
         $('#attr').append('<input type="checkbox" class="attribute"  name="attr" unchecked/> ')
@@ -225,7 +258,6 @@ $(document).ready(function(){
     })
 
     $("#generateHypo").click(function(){
-
         var tempRightprod = ""
         $.each(chooseList, function(index){
             if(tempRightprod.length == 0){
