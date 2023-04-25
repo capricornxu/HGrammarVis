@@ -248,12 +248,21 @@ $(document).ready(function(){
     });
 
     // read in partial grammar
+    // check box for attribute
     $.each(PartialGrammar['attr'], function(index, value) {
         $('#attr').append('<input type="checkbox" class="attribute"  name="attr" unchecked/> ')
         $('#attr').append('<label >' + value + '</label>');
     });
 
+    // dropdown for task
     taskList = ["Characterize Distribution", "Correlation", "Find anomalies", "Find extremum"]
+    // $('#taskSelectBox').val('Characterize Distribution');
+    $.each(taskList, function(index, value) {
+        $('#taskSelectBox').append($('<option>', {
+          value: value,
+          text: value
+        }));
+    });
     $.each(taskList, function(index, value) {
         $('#task').append('<input type="checkbox" class="task"  name="expr" unchecked/> ')
         $('#task').append('<label >' + value + '</label>')
@@ -262,29 +271,26 @@ $(document).ready(function(){
     $("#customize").click(function(){
         // task
         var task = $("#task .task")
-        $.each(task, function(index){
-            if(task[index]["checked"] == true){
-                console.log(taskList[index]);
-                switch (index) {
-                    case 0:
-                        hypoGrammar = CDgrm
-                        pred = CDpred
-                        break;
-                    case 1:
-                        hypoGrammar = CORRgrm
-                        // pred = pred
-                        break;
-                    case 2:
-                        hypoGrammar = ANOMgrm
-                        pred = ANOMpred
-                        break;
-                    case 3:
-                        hypoGrammar = EXTREgrm
-                        // pred = pred
-                        break;
-                  }
-            }
-        })
+        var selectedOption = $("#task #taskSelectBox").val();
+        console.log(selectedOption)
+        switch (selectedOption) {
+            case taskList[0]:
+                hypoGrammar = CDgrm
+                pred = CDpred
+                break;
+            case taskList[1]:
+                hypoGrammar = CORRgrm
+                // pred = pred
+                break;
+            case taskList[2]:
+                hypoGrammar = ANOMgrm
+                pred = ANOMpred
+                break;
+            case taskList[3]:
+                hypoGrammar = EXTREgrm
+                // pred = pred
+                break;
+        }
         
         // attribute
         var attribute = $("#attr .attribute")
