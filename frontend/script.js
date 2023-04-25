@@ -86,19 +86,6 @@ const EXTREgrm = {
     "subpred": " "
 }
 
-var attrArray = ["Model", "MPG", "Cylinders", "Displacement", "Horsepower", "Weight", "Acceleration", "Year", "Origin"]
-
-var attrDict = {"Model": "pontiac grand prix",
-                "MPG": 16,
-                "Cylinders": 8,
-                "Displacement": 400,
-                "Horsepower": 230,
-                "Weight": 4278,
-                "Acceleration": 9.5,
-                "Year": 73,
-                "Origin": "US"
-            }
-
 var attrExamples = {"Model": [],
                 "MPG": [],
                 "Cylinders": [],
@@ -165,10 +152,11 @@ function sendComponentsCallback(responseText){
             if (element === "string" || element === "number") {
                 targetElement = hypoArray[index - 2]
                 // check the target word, if it's an attribute
-                if ($.inArray(targetElement, Object.keys(attrDict)) !== -1){
-                    console.log(targetElement)
-                    console.log(attrExamples[targetElement])
+                if ($.inArray(targetElement, Object.keys(attrExamples)) !== -1){
+                    // console.log(targetElement)
+                    // console.log(attrExamples[targetElement])
 
+                    // create select
                     var select = $('<select>');
 
                     $.each(attrExamples[targetElement], function(index, value) {
@@ -177,18 +165,18 @@ function sendComponentsCallback(responseText){
                     });
 
                     hypoArray[index] = select.prop('outerHTML')
-                    console.log(hypoArray)
+                    // console.log(hypoArray)
                 }
-                // console.log(targetElemnet)
             }
         });
         receivedData[index] = hypoArray.join(" ")
     })
     
-    
+    // append hypothesis to hypothesis_list
     $("#hypothesis_list").html(receivedData.join("<br/>"))
 }
 
+// update production based on the choice of attributes
 function updateProduction(userChoice){
     var tempRightprod = ""
     for (let index = 0; index < userChoice.length; index++) {
@@ -205,6 +193,7 @@ function updateProduction(userChoice){
     return tempRightprod
 }
 
+// show choose box of predicate list
 function showChooseBox(componentList) {
     $("#chooseBox").empty()
 
@@ -225,6 +214,7 @@ function showChooseBox(componentList) {
 
 // main entrance here
 $(document).ready(function(){
+    // get the data from backend and update attrExamples
     $.get('http://localhost:6969/users', function(response) {
         $.each(response, function(index, dictionary) {
             attrExamples["Model"].push(dictionary.Model)
@@ -236,7 +226,7 @@ $(document).ready(function(){
             attrExamples["Year"].push(dictionary.Year)
             attrExamples["Origin"].push(dictionary.Origin)
         });
-        console.log(attrExamples)
+        // console.log(attrExamples)
         $.each(attrExamples, function(index, value){
             attrExamples[index] = [...new Set(value)]
             console.log(attrExamples[index])
@@ -244,7 +234,7 @@ $(document).ready(function(){
                 return a - b;
             });
         })
-        console.log(attrExamples)
+        // console.log(attrExamples)
     });
 
     // read in partial grammar
@@ -256,7 +246,6 @@ $(document).ready(function(){
 
     // dropdown for task
     taskList = ["Characterize Distribution", "Correlation", "Find anomalies", "Find extremum"]
-    // $('#taskSelectBox').val('Characterize Distribution');
     $.each(taskList, function(index, value) {
         $('#taskSelectBox').append($('<option>', {
           value: value,
