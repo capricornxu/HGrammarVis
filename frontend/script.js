@@ -263,10 +263,6 @@ $(document).ready(function(){
           text: value
         }));
     });
-    $.each(taskList, function(index, value) {
-        $('#task').append('<input type="checkbox" class="task"  name="expr" unchecked/> ')
-        $('#task').append('<label >' + value + '</label>')
-    });
 
     $("#customize").click(function(){
         // task
