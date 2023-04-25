@@ -99,6 +99,17 @@ var attrDict = {"Model": "pontiac grand prix",
                 "Origin": "US"
             }
 
+var attrExamples = {"Model": [],
+                "MPG": [],
+                "Cylinders": [],
+                "Displacement": [],
+                "Horsepower": [],
+                "Weight": [],
+                "Acceleration": [],
+                "Year": [],
+                "Origin": []
+            }
+
 var exprList = []
 var subpredList = []
 var chooseList = []
@@ -143,25 +154,35 @@ function sendComponentsCallback(responseText){
     console.log(receivedData)
 
     $.each(receivedData,function(index, data){
+        console.log(attrExamples)
+
+        // split hypothesis array by empty space
         hypoArray = $.trim(data).split(/\s+/)
         constIndex = []
+
         $.each(hypoArray, function(index, element) {
             // find the indices of number and string in the array
             if (element === "string" || element === "number") {
                 targetElement = hypoArray[index - 2]
+                // check the target word, if it's an attribute
                 if ($.inArray(targetElement, Object.keys(attrDict)) !== -1){
                     console.log(targetElement)
-                    // hypoArray[index] = "<span class='highlight'>" +  attrDict[targetElement] + "</span>"
-                    hypoArray[index] = "<select class='highlight'>" + " <option value='option1'>" +  attrDict[targetElement] + "</option>" + "</select>"
+                    console.log(attrExamples[targetElement])
+
+                    var select = $('<select>');
+
+                    $.each(attrExamples[targetElement], function(index, value) {
+                        var option = $('<option>').text(value);
+                        select.append(option);
+                    });
+
+                    hypoArray[index] = select.prop('outerHTML')
                     console.log(hypoArray)
                 }
                 // console.log(targetElemnet)
             }
         });
         receivedData[index] = hypoArray.join(" ")
-        // check if it follows an attribute
-
-        // if so change it to an example of the attribute
     })
     
     
@@ -205,7 +226,25 @@ function showChooseBox(componentList) {
 // main entrance here
 $(document).ready(function(){
     $.get('http://localhost:6969/users', function(response) {
-        console.log(response);
+        $.each(response, function(index, dictionary) {
+            attrExamples["Model"].push(dictionary.Model)
+            attrExamples["Cylinders"].push(dictionary.Cylinders)
+            attrExamples["MPG"].push(dictionary.MPG)
+            attrExamples["Displacement"].push(dictionary.Displacement)
+            attrExamples["Horsepower"].push(dictionary.Horsepower)
+            attrExamples["Acceleration"].push(dictionary.Acceleration)
+            attrExamples["Year"].push(dictionary.Year)
+            attrExamples["Origin"].push(dictionary.Origin)
+        });
+        console.log(attrExamples)
+        $.each(attrExamples, function(index, value){
+            attrExamples[index] = [...new Set(value)]
+            console.log(attrExamples[index])
+            attrExamples[index].sort(function(a, b) {
+                return a - b;
+            });
+        })
+        console.log(attrExamples)
     });
 
     // read in partial grammar
