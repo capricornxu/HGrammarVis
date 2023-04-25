@@ -12,7 +12,7 @@ from nltk import CFG
 from nltk.parse.chart import demo_grammar
 from nltk.parse.earleychart import EarleyChartParser, perf_counter
 import flask
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from flask_cors import CORS
 
 type_dict = {'Car_id': 'number', 

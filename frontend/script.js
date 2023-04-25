@@ -204,6 +204,9 @@ function showChooseBox(componentList) {
 
 // main entrance here
 $(document).ready(function(){
+    $.get('http://localhost:6969/users', function(response) {
+        console.log(response);
+    });
 
     // read in partial grammar
     $.each(PartialGrammar['attr'], function(index, value) {

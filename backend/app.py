@@ -8,9 +8,12 @@ def users():
     print("users endpoint reached...")
 
     if request.method == "GET":
-        with open("sentence.json", "r") as f:
-            data = json.load(f)
-            return flask.jsonify(data)
+        # Replace 'file_path' with the path to your file
+        df = pd.read_csv('Cars.csv')
+        data = df.to_dict(orient='records')
+
+        # Return the file to the frontend
+        return jsonify(data)
     
     if request.method == "POST":
         received_data = request.get_json()
