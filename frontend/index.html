@@ -4,30 +4,43 @@
     <link rel="stylesheet" type="text/css" href="style.css" media="screen" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
     <script type="text/javascript" src="script.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="https://bulma.io/vendor/fontawesome-free-5.15.2-web/css/all.min.css">
 </header>
 
-<div>
-    <div id="specifyGrammar">
-        <div id="attr">
-            <h2>Attribute</h2>
+<body>
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <p class="is-size-3 has-text-weight-semibold"> HypoExplorer</p>
+            </div>
+            <div class="columns is-size-6">
+                <div id="specifyGrammar" class="column box is-narrow mr-4">
+                    <div id="attr">
+                        <p class="is-size-4">Attribute</p>
+                    </div>
+                    <div id="task" class="mt-5">
+                        <p class="is-size-4">Analysis Task</p>
+                        <select id="taskSelectBox"></select>
+                    </div>
+                    <button class="button mt-2 is-light" role="button" id="customize">Generate Grammar</button>
+                </div>
+            
+                <div id="predList" class="column box is-narrow mr-4">
+                    <p class="is-size-4">Predicates</p>
+                    <button class="button is-light" role="button" id="generateHypo">Generate Hypotheses</button>
+                    <ul id="chooseBox"></ul>
+                </div>
+                
+                <div id="hypoList" class="column box is-four-fifth">
+                    <p class="is-size-4">Hypotheses</p>
+                    <div id="hypothesis_list"></div>
+                </div>
+            <div class="columns"></div>
         </div>
-        <div id="task">
-            <h2>Task</h2>
-            <select id="taskSelectBox">
-            </select>
-        </div>
-        <button class="button" role="button" id="customize">Generate Grammar</button>
-    </div>
+    </section>
+</body>
 
-    <div id="predList">
-        <h2>Pred</h2>
-        <button class="button" role="button" id="generateHypo">Generate Hypothesis</button>
-        <ul id="chooseBox"></ul>
-    </div>
-    
-    <div id="hypoList">
-        <h2>Hypothesis</h2>
-        <div id="hypothesis_list"></div>
-    </div>
+
 
 </html>

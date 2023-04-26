@@ -1,5 +1,5 @@
 .selected{
-	background-color: yellow;
+	background-color: #a6cee3;
 }
 
 .highlight {
@@ -7,18 +7,6 @@
 	font-weight: bold;
 }
 
-/* #specifyGrammar {
-	width: 200px;
+.column {
+	min-height: 700px;
 }
-
-#specifyGrammar, #predList, #hypoList {
-	display: inline-block;
-	top: 0;
-	font-size: 20px;
-	padding: 10px;
-	box-sizing: border-box;
-}
-
-#predList {
-	top: 0;
-} */

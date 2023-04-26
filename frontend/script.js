@@ -173,7 +173,7 @@ function sendComponentsCallback(responseText){
     })
     
     // append hypothesis to hypothesis_list
-    $("#hypothesis_list").html(receivedData.join("<br/>"))
+    $("#hypothesis_list").html(receivedData.join("<br/><br/>"))
 }
 
 // update production based on the choice of attributes
