@@ -229,7 +229,7 @@ $(document).ready(function(){
         // console.log(attrExamples)
         $.each(attrExamples, function(index, value){
             attrExamples[index] = [...new Set(value)]
-            console.log(attrExamples[index])
+            // console.log(attrExamples[index])
             attrExamples[index].sort(function(a, b) {
                 return a - b;
             });
@@ -241,7 +241,7 @@ $(document).ready(function(){
     // check box for attribute
     $.each(PartialGrammar['attr'], function(index, value) {
         $('#attr').append('<input type="checkbox" class="attribute"  name="attr" unchecked/> ')
-        $('#attr').append('<label >' + value + '</label>');
+        $('#attr').append('<label >' + value + '</label> </br>');
     });
 
     // dropdown for task

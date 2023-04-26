@@ -7,28 +7,27 @@
 </header>
 
 <div>
-    <div id="attr">
-        <h2>Attribute</h2>
+    <div id="specifyGrammar">
+        <div id="attr">
+            <h2>Attribute</h2>
+        </div>
+        <div id="task">
+            <h2>Task</h2>
+            <select id="taskSelectBox">
+            </select>
+        </div>
+        <button class="button" role="button" id="customize">Generate Grammar</button>
     </div>
-    <div id="task">
-        <h2>Task</h2>
-        <select id="taskSelectBox">
-        </select>
+
+    <div id="predList">
+        <h2>Pred</h2>
+        <button class="button" role="button" id="generateHypo">Generate Hypothesis</button>
+        <ul id="chooseBox"></ul>
     </div>
-
-<button class="button" role="button" id="customize">Generate Grammar</button>
-<button class="button" role="button" id="generateHypo">Generate Hypothesis</button>
-<br/>
-
-
-<h2>Pred</h2>
-<ul id="chooseBox"></ul>
-<!-- <div id="pred_list"></div> -->
-
-<h2>Hypothesis</h2>
-<div id="hypothesis_list"></div>
-
-<div id="tree"></div>
-<div id="hypo_table"></div>
+    
+    <div id="hypoList">
+        <h2>Hypothesis</h2>
+        <div id="hypothesis_list"></div>
+    </div>
 
 </html>
