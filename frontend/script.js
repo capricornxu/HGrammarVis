@@ -315,8 +315,8 @@ $(document).ready(function(){
                 margin: {
                     l: 0, // Set the left margin to 0
                     r: 0, // Set the right margin to 0
-                    t: 0, // Set the top margin to 0
-                    b: 0  // Set the bottom margin to 0
+                    t: 5, // Set the top margin to 0
+                    b: 5  // Set the bottom margin to 0
                   }
             };
             var config = {
