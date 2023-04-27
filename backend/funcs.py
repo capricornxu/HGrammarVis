@@ -7,6 +7,8 @@ import pandas as pd
 import os
 import json
 import nltk
+import os
+import openai
 from nltk.parse.generate import generate, demo_grammar
 from nltk import CFG
 from nltk.parse.chart import demo_grammar

@@ -163,14 +163,19 @@ function sendGrammarCallback(responseText){
 
 function sendComponentsCallback(responseText){
     receivedData = JSON.parse(responseText)
-    console.log(receivedData)
+    hypoString = receivedData[0]
+    hypoText = receivedData[1]
+    console.log(hypoString)
+    console.log(hypoText)
 
-    $.each(receivedData,function(index, data){
+    // var returnedHypo
+
+    $.each(hypoString,function(index, data){
         console.log(attrExamples)
 
         // split hypothesis array by empty space
         hypoArray = $.trim(data).split(/\s+/)
-        constIndex = []
+        // constIndex = []
 
         $.each(hypoArray, function(index, element) {
             // find the indices of number and string in the array
@@ -191,14 +196,26 @@ function sendComponentsCallback(responseText){
 
                     hypoArray[index] = select.prop('outerHTML')
                     // console.log(hypoArray)
+
                 }
             }
         });
-        receivedData[index] = hypoArray.join(" ")
+        hypoString[index] = hypoArray.join(" ")
     })
     
     // append hypothesis to hypothesis_list
-    $("#hypothesis_list").html(receivedData.join("<br/><br/>"))
+    // $("#hypothesis_list").html(hypoString.join("<br/><br/>"))
+    // $("#hypothesis_list").append(hypoText.join("<br/><br/>"))
+
+    // var returnedHypo = hypoString
+    $.each(hypoString, function(index, data){
+        $("#hypothesis_list").append(hypoString[index])
+        var currentText = $('<div>');
+        currentText.attr("class", "hypoText");
+        currentText.append(hypoText[index] + "<br/><br/>")
+        $("#hypothesis_list").append(currentText)
+    })
+    // $("#hypothesis_list").append(returnedHypo.join("<br/><br/>"))
 }
 
 // update production based on the choice of attributes
