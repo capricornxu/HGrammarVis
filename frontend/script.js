@@ -97,10 +97,35 @@ var attrExamples = {"Model": [],
                 "Origin": []
             }
 
+var attrExamplesNonDuplicate = {"Model": [],
+            "MPG": [],
+            "Cylinders": [],
+            "Displacement": [],
+            "Horsepower": [],
+            "Weight": [],
+            "Acceleration": [],
+            "Year": [],
+            "Origin": []
+        }
+
 var exprList = []
 var subpredList = []
 var chooseList = []
 var li
+
+// set the dimensions and margins of the graph
+const margin = {top: 10, right: 30, bottom: 30, left: 40},
+    width = 460 - margin.left - margin.right,
+    height = 400 - margin.top - margin.bottom;
+
+// append the svg object to the body of the page
+const svg = d3.select("#attrHist")
+  .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform",
+          `translate(${margin.left},${margin.top})`);
 
 // Get Request
 function httpGetAsync(theUrl, callback)
@@ -212,21 +237,34 @@ function showChooseBox(componentList) {
     return chooseList
 }
 
+
 // main entrance here
 $(document).ready(function(){
     // get the data from backend and update attrExamples
     $.get('http://localhost:6969/users', function(response) {
+        // var attrExamplesNonDuplicate
         $.each(response, function(index, dictionary) {
             attrExamples["Model"].push(dictionary.Model)
             attrExamples["Cylinders"].push(dictionary.Cylinders)
+            attrExamples["Weight"].push(dictionary.Weight)
             attrExamples["MPG"].push(dictionary.MPG)
             attrExamples["Displacement"].push(dictionary.Displacement)
             attrExamples["Horsepower"].push(dictionary.Horsepower)
             attrExamples["Acceleration"].push(dictionary.Acceleration)
             attrExamples["Year"].push(dictionary.Year)
             attrExamples["Origin"].push(dictionary.Origin)
+
+            attrExamplesNonDuplicate["Model"].push(dictionary.Model)
+            attrExamplesNonDuplicate["Cylinders"].push(dictionary.Cylinders)
+            attrExamplesNonDuplicate["Weight"].push(dictionary.Weight)
+            attrExamplesNonDuplicate["MPG"].push(dictionary.MPG)
+            attrExamplesNonDuplicate["Displacement"].push(dictionary.Displacement)
+            attrExamplesNonDuplicate["Horsepower"].push(dictionary.Horsepower)
+            attrExamplesNonDuplicate["Acceleration"].push(dictionary.Acceleration)
+            attrExamplesNonDuplicate["Year"].push(dictionary.Year)
+            attrExamplesNonDuplicate["Origin"].push(dictionary.Origin)
         });
-        // console.log(attrExamples)
+        
         $.each(attrExamples, function(index, value){
             attrExamples[index] = [...new Set(value)]
             // console.log(attrExamples[index])
@@ -235,22 +273,68 @@ $(document).ready(function(){
             });
         })
         // console.log(attrExamples)
-    });
 
-    // read in partial grammar
-    // check box for attribute
-    $.each(PartialGrammar['attr'], function(index, value) {
-        $('#attr').append('<input type="checkbox" class="attribute"  name="attr" unchecked/> ')
-        $('#attr').append('<label >' + value + '</label> </br>');
-    });
+        // read in partial grammar
+        // check box for attribute
+        $.each(PartialGrammar['attr'], function(index, value) {
+            $('#attr').append('<input type="checkbox" class="attribute"  name="attr" unchecked/> ')
+            $('#attr').append('<label >' + value + '</label> </br>');
 
-    // dropdown for task
-    taskList = ["Characterize Distribution", "Correlation", "Find anomalies", "Find extremum"]
-    $.each(taskList, function(index, value) {
-        $('#taskSelectBox').append($('<option>', {
-          value: value,
-          text: value
-        }));
+            // draw histogram here
+            // $('#attr').append("<figure class='image is-16by9'><img src='https://bulma.io/images/placeholders/128x128.png'></figure>")
+            // var data = attrExamplesNonDuplicate[value]
+
+            var histDiv = $("<div>")
+            histDiv.attr("id", value)
+            $('#attr').append(histDiv)
+            var trace = {
+                x: attrExamplesNonDuplicate[value],
+                type: 'histogram',
+            };
+            var layout = {
+                width: 250, // Set the width to 800 pixels
+                height: 30, // Set the height to 600 pixels
+                xaxis: {
+                    autorange: true,
+                    showgrid: false,
+                    zeroline: false,
+                    showline: false,
+                    autotick: true,
+                    ticks: '',
+                    showticklabels: false
+                },
+                yaxis: {
+                    autorange: true,
+                    showgrid: false,
+                    zeroline: false,
+                    showline: false,
+                    autotick: true,
+                    ticks: '',
+                    showticklabels: false
+                },
+                margin: {
+                    l: 0, // Set the left margin to 0
+                    r: 0, // Set the right margin to 0
+                    t: 0, // Set the top margin to 0
+                    b: 0  // Set the bottom margin to 0
+                  }
+            };
+            var config = {
+                displayModeBar: false
+              };
+              
+            var data = [trace];
+            Plotly.newPlot(value, data, layout, config);
+        });
+
+        // dropdown for task
+        taskList = ["Characterize Distribution", "Correlation", "Find anomalies", "Find extremum"]
+        $.each(taskList, function(index, value) {
+            $('#taskSelectBox').append($('<option>', {
+            value: value,
+            text: value
+            }));
+        });
     });
 
     $("#customize").click(function(){
