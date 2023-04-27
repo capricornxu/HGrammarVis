@@ -290,6 +290,9 @@ $(document).ready(function(){
             var trace = {
                 x: attrExamplesNonDuplicate[value],
                 type: 'histogram',
+                marker: {
+                    color: '#a6cee3' // Set the color of the histogram bars to blue
+                }
             };
             var layout = {
                 width: 250, // Set the width to 800 pixels
