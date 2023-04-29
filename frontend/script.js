@@ -73,10 +73,10 @@ const ANOMpred = {
 }
 
 const EXTREgrm = {
-    "hypo": "'COUNT' '(' ')' '[' pred ']' op COUNT '[' '!' '(' pred ')' ']'",
-    "hypo": "'MAX' '(' attr ')' op 'MAX' '(' attr ')' '[' pred ']' ",
-    "hypo": "'MIN' '(' attr ')' op 'MIN' '(' attr ')' '[' pred ']' ",
-    "hypo": "'AVG' '(' attr ')' op 'AVG' '(' attr ')' '[' pred ']' ",  
+    "hypo": "hypo1 | hypo2",
+    "hypo1": "",
+    // "hypo1": "'COUNT' '(' ')' '[' pred ']' op COUNT '[' '!' '(' pred ')' ']' | 'AVG' '(' attr ')' '[' pred ']' op 'AVG' '(' attr ')'  '[' '!' '(' pred ')' ']'",
+    "hypo2": "'MAX' '(' attr ')' '[' pred ']' '<' 'MIN' '(' attr ')' '[' pred ']' | 'MAX' '(' attr ')' '[' pred ']' op 'MAX' '(' attr ')' '[' pred ']'| 'MIN' '(' attr ')' '[' pred ']' op 'MIN' '(' attr ')' '[' pred ']' ",
     "op":"'=' | '<' | '>'",
     "var": "attr ",
     "attr": "'Model' | 'MPG' | 'Cylinders' | 'Displacement' | 'Horsepower' | 'Weight' | 'Acceleration' | 'Year' | 'Origin'",
@@ -213,6 +213,11 @@ function sendComponentsCallback(responseText){
         var currentText = $('<div>');
         currentText.attr("class", "hypoText");
         currentText.append(hypoText[index] + "<br/><br/>")
+        currentText.css({
+            "font-size": "16px",
+            "color": "gray",
+            "font-style": "italic"
+        })  
         $("#hypothesis_list").append(currentText)
     })
     // $("#hypothesis_list").append(returnedHypo.join("<br/><br/>"))
